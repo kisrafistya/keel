@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  /* keel social preview - 1280x640. Blueprint / ship's-lines aesthetic. */
+  :root {
+    --ink:        oklch(20% 0.045 252);
+    --ink-deep:   oklch(15% 0.038 252);
+    --paper:      oklch(96% 0.013 250);
+    --muted:      oklch(72% 0.025 250);
+    --faint:      oklch(96% 0.013 250 / 0.16);
+    --hull:       oklch(96% 0.013 250 / 0.22);
+    --accent:     oklch(82% 0.135 75);
+    --accent-dim: oklch(82% 0.135 75 / 0.75);
+    --space: 72px;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { width: 1280px; height: 640px; }
+  body {
+    position: relative;
+    overflow: hidden;
+    background: var(--ink);
+    color: var(--paper);
+    font-family: "Space Grotesk", "Segoe UI", system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* blueprint plan-grid */
+  .grid {
+    position: absolute; inset: 0;
+    background-image:
+      repeating-linear-gradient(to right, var(--faint) 0 1px, transparent 1px 48px),
+      repeating-linear-gradient(to bottom, var(--faint) 0 1px, transparent 1px 48px);
+    mask-image: radial-gradient(120% 120% at 18% 30%, #000 55%, transparent 100%);
+  }
+  /* corner darkening for depth, no center glow */
+  .vignette {
+    position: absolute; inset: 0;
+    background: radial-gradient(140% 120% at 85% 110%, transparent 40%, var(--ink-deep) 100%);
+  }
+
+  /* the ship's body-plan, hand-drawn, lower right */
+  .lines {
+    position: absolute;
+    right: 40px; bottom: 28px;
+    width: 560px; height: 392px;
+    opacity: 0.95;
+  }
+
+  .frame {
+    position: absolute; inset: var(--space);
+    display: flex; flex-direction: column; justify-content: center;
+    padding-top: 60px; padding-bottom: 84px;
+  }
+
+  .eyebrow {
+    position: absolute; top: var(--space); left: var(--space);
+    font-family: "JetBrains Mono", ui-monospace, Menlo, monospace;
+    font-size: 16px; font-weight: 500;
+    letter-spacing: 0.26em; text-transform: uppercase;
+    color: var(--muted);
+  }
+  .topmark {
+    position: absolute; top: var(--space); right: var(--space);
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+    font-size: 14px; letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--muted);
+    text-align: right; line-height: 1.7;
+  }
+  .topmark b { color: var(--accent); font-weight: 500; }
+
+  .block { max-width: 660px; }
+
+  .wordmark {
+    font-size: 156px; font-weight: 700; line-height: 0.86;
+    letter-spacing: -0.04em;
+    color: var(--paper);
+  }
+  .wordmark .dot { color: var(--accent); }
+
+  .tagline {
+    margin-top: 22px;
+    font-size: 34px; font-weight: 500; line-height: 1.12;
+    letter-spacing: -0.01em;
+    max-width: 600px;
+  }
+  .subline {
+    margin-top: 10px;
+    font-size: 20px; font-weight: 400;
+    color: var(--muted);
+  }
+
+  .steps {
+    margin-top: 18px;
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+    font-size: 15px; letter-spacing: 0.02em;
+    color: var(--paper);
+  }
+  .steps .arr { color: var(--accent); padding: 0 8px; }
+
+  .rail {
+    position: absolute; left: var(--space); right: var(--space); bottom: var(--space);
+    display: flex; align-items: center; justify-content: space-between;
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+    font-size: 18px; letter-spacing: 0.02em;
+  }
+  .rail .url { display: inline-flex; align-items: center; gap: 12px; color: var(--paper); }
+  .rail .tick { width: 9px; height: 9px; background: var(--accent); transform: rotate(45deg); }
+  .rail .meta { color: var(--muted); letter-spacing: 0.12em; text-transform: uppercase; font-size: 14px; }
+</style>
+</head>
+<body>
+  <div class="grid"></div>
+  <div class="vignette"></div>
+
+  <!-- ship's body-plan: nested hull sections converging on the keel -->
+  <svg class="lines" viewBox="0 0 560 392" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <!-- waterline + centerline -->
+    <line x1="20" y1="64" x2="540" y2="64" stroke="var(--hull)" stroke-width="1.25"/>
+    <line x1="280" y1="30" x2="280" y2="372" stroke="var(--hull)" stroke-width="1.25"/>
+    <!-- waterline ticks -->
+    <g stroke="var(--hull)" stroke-width="1.25">
+      <line x1="60"  y1="58" x2="60"  y2="70"/>
+      <line x1="140" y1="58" x2="140" y2="70"/>
+      <line x1="220" y1="58" x2="220" y2="70"/>
+      <line x1="360" y1="58" x2="360" y2="70"/>
+      <line x1="440" y1="58" x2="440" y2="70"/>
+      <line x1="500" y1="58" x2="500" y2="70"/>
+    </g>
+    <!-- nested hull sections (U-curves), beamy+shallow outside to narrow+deep at the keel -->
+    <g fill="none" stroke="var(--hull)" stroke-width="1.6" stroke-linecap="round">
+      <path d="M 42 64 C 42 196, 132 286, 280 286 C 428 286, 518 196, 518 64"/>
+      <path d="M 86 64 C 86 200, 158 300, 280 300 C 402 300, 474 200, 474 64"/>
+      <path d="M 132 64 C 132 206, 188 314, 280 314 C 372 314, 428 206, 428 64"/>
+      <path d="M 180 64 C 180 214, 220 328, 280 328 C 340 328, 380 214, 380 64"/>
+      <path d="M 228 64 C 228 226, 252 342, 280 342 C 308 342, 332 226, 332 64"/>
+    </g>
+    <!-- the keel itself, accented -->
+    <path d="M 264 64 C 264 250, 272 356, 280 356 C 288 356, 296 250, 296 64"
+          fill="none" stroke="var(--accent-dim)" stroke-width="2.4" stroke-linecap="round"/>
+    <circle cx="280" cy="356" r="3.5" fill="var(--accent)"/>
+  </svg>
+
+  <div class="topmark">FIG.01<br><b>THE&nbsp;SPINE</b></div>
+
+  <div class="frame">
+    <div class="eyebrow">Anti-slop &middot; method + agent skill</div>
+
+    <div class="block">
+      <div class="wordmark">keel<span class="dot">.</span></div>
+      <div class="tagline">The anti-slop layer for AI-assisted building.</div>
+      <div class="subline">Build the right thing, not slop that compiles.</div>
+      <div class="steps">
+        insight<span class="arr">&rarr;</span>pressure-test<span class="arr">&rarr;</span>lock decisions<span class="arr">&rarr;</span>right-size docs
+      </div>
+    </div>
+  </div>
+
+  <div class="rail">
+    <span class="url"><span class="tick"></span>github.com/kisrafistya/keel</span>
+    <span class="meta">Claude Code &middot; MIT</span>
+  </div>
+</body>
+</html>
